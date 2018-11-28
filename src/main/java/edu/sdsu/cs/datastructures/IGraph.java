@@ -4,12 +4,13 @@ import java.util.List; /**
  *
  *	@param <V> The type to use for unique vertex names (e.g. String)
  */
-interface IGraph<V> {
+public interface IGraph<V> {
     /**
      *	Inserts a vertex with the specified name into the Graph if it * is not already present.
      *
      *	@param vertexName The label to associate with the vertex
-     */ void add(V vertexName);
+     */
+    void add(V vertexName);
     /**
      *	Adds a connection between the named vertices if one does not * yet exist.
      *
@@ -21,20 +22,23 @@ interface IGraph<V> {
     void connect(V start, V destination);
     /**
      *	Resets the graph to an empty state.
-     */ void clear();
+     */
+    void clear();
     /**
      *	Reports if a vertex with the specified label is stored within * the graph.
      *
      *	@param label The vertex name to find
      *	@return true if within the graph, false if not.
-     */ boolean contains(V label); /**
+     */
+    boolean contains(V label); /**
      *	Removes the specified edge, if it exists, from the Graph.
      *
      *	@param start	The name of the origin vertex
      *	@param destination The name of the terminal vertex
      *	@throws java.util.NoSuchElementException if either vertex are
      *	not present in the graph
-     */ void disconnect(V start, V destination);
+     */
+    void disconnect(V start, V destination);
     /**
      *	Identifies if a path exists between the two vertices.
      *
@@ -46,7 +50,8 @@ interface IGraph<V> {
      *	@return True if any path exists between them
      *	@throws java.util.NoSuchElementException if either vertex are
      *	not present in the graph
-     */ boolean isConnected(V start, V destination);
+     */
+    boolean isConnected(V start, V destination);
     /**
      *	Provides a collection of vertex names directly connected * through a single outgoing edge to the target vertex.
      *
@@ -81,7 +86,8 @@ interface IGraph<V> {
     /**
      *	Reports the number of vertices in the Graph. *
      *	@return a non-negative number.
-     */ int size();
+     */
+    int size();
     /**
      *	Provides a collection of vertex names currently in the graph. *
      *	@return The names of the vertices within the graph.

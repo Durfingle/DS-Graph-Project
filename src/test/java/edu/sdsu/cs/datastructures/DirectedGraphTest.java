@@ -255,6 +255,7 @@ public class DirectedGraphTest {
             assertFalse(sut.contains(current));
         }
         for (int current = subIndex; current < DEFAULT_TEST_SIZE; current++) {
+            System.out.println(current);
             assertTrue(sut.contains(current));
         }
 
