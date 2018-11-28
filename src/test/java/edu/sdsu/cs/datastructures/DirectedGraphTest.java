@@ -125,7 +125,7 @@ public class DirectedGraphTest {
 
     @Test
     public void remove_middleLayer_validSize(){
-        DirectedGraph<Integer> sut = buildSimpleThreeLayer(new DirectedGraph<Integer>());
+        DirectedGraph<Integer> sut = buildSimpleThreeLayer(new DirectedGraph());
 
         sut.remove(10);
         sut.remove(11);
@@ -136,7 +136,7 @@ public class DirectedGraphTest {
 
     @Test
     public void remove_middleLayer_isConnectedBreaks(){
-        DirectedGraph<Integer> sut = buildSimpleThreeLayer(new DirectedGraph<Integer>());
+        DirectedGraph<Integer> sut = buildSimpleThreeLayer(new DirectedGraph());
 
         assertTrue(sut.isConnected(NODE_INITIAL,200));
         sut.remove(10);
@@ -170,7 +170,7 @@ public class DirectedGraphTest {
 
     @Test
     public void disconnect_middleLayer_validSize(){
-        DirectedGraph<Integer> sut = buildSimpleThreeLayer(new DirectedGraph<Integer>());
+        DirectedGraph<Integer> sut = buildSimpleThreeLayer(new DirectedGraph());
 
         sut.disconnect(NODE_INITIAL,10);
         sut.disconnect(NODE_INITIAL,11);
@@ -181,7 +181,7 @@ public class DirectedGraphTest {
 
     @Test
     public void disconnect_middleLayer_isConnectedBreaks(){
-        DirectedGraph<Integer> sut = buildSimpleThreeLayer(new DirectedGraph<Integer>());
+        DirectedGraph<Integer> sut = buildSimpleThreeLayer(new DirectedGraph());
 
         assertTrue(sut.isConnected(NODE_INITIAL,200));
         sut.disconnect(NODE_INITIAL,10);
@@ -218,7 +218,7 @@ public class DirectedGraphTest {
 
     @Test
     public void connect_sequentialVerts_allPresent() {
-        DirectedGraph<Integer> sut = straightLineGraph(new DirectedGraph<Integer>());
+        DirectedGraph<Integer> sut = straightLineGraph(new DirectedGraph());
 
         for (Integer current = 0; current < DEFAULT_TEST_SIZE - 1; current++) {
             if (!sut.neighbors(current).iterator().hasNext())
@@ -255,7 +255,6 @@ public class DirectedGraphTest {
             assertFalse(sut.contains(current));
         }
         for (int current = subIndex; current < DEFAULT_TEST_SIZE; current++) {
-            System.out.println(current);
             assertTrue(sut.contains(current));
         }
 
@@ -265,7 +264,7 @@ public class DirectedGraphTest {
 
     @Test
     public void shortestPath_singlePathInGraph_correctSizeAndSequence() {
-        DirectedGraph<Integer> sut = straightLineGraph(new DirectedGraph<Integer>());
+        DirectedGraph<Integer> sut = straightLineGraph(new DirectedGraph());
 
         List<Integer> path = sut.shortestPath(0, DEFAULT_TEST_SIZE - 1);
 
@@ -278,7 +277,7 @@ public class DirectedGraphTest {
 
     @Test
     public void shortestPath_twoPathsInGraph_correctSizeAndSequence() {
-        DirectedGraph<Integer> sut = straightLineGraph(new DirectedGraph<Integer>());
+        DirectedGraph<Integer> sut = straightLineGraph(new DirectedGraph());
         sut.connect(0, DEFAULT_TEST_SIZE - 1);
 
         List<Integer> path = sut.shortestPath(0, DEFAULT_TEST_SIZE - 1);
@@ -291,7 +290,7 @@ public class DirectedGraphTest {
 
     @Test
     public void clear_sequentialGraph_empty(){
-        DirectedGraph<Integer> sut = straightLineGraph(new DirectedGraph<Integer>());
+        DirectedGraph<Integer> sut = straightLineGraph(new DirectedGraph());
 
         sut.clear();
 
