@@ -1,15 +1,14 @@
-package edu.sdsu.cs;
-
-import edu.sdsu.cs.datastructures.DirectedGraph;
-import edu.sdsu.cs.datastructures.IGraph;
+package edu.sdsu.cs.datastructures;
 
 import java.io.*;
+import java.util.List;
 import java.util.Scanner;
 
 /**
+ * Program 3
  * Michael Kemper
- *
- *
+ * <p>
+ * <p>
  * Juan Pina-Sanz
  * cssc0835*
  */
@@ -18,73 +17,84 @@ public class App {
     private static File currFile;
 
     public static void main(String args[]) {
-        System.out.println("CS310: Program 3");
-        System.out.println("The Graph and Shortest Path");
-        System.out.println("Please enter the file directory of the CSV you " +
-                "want to graph: \n");
+        System.out.println("CS310: Program 3\nThe Graph and Shortest Path");
+//        System.out.println("The Graph and Shortest Path");
 
-        Scanner scan = new Scanner(System.in);
-        String input;
-        input = scan.nextLine();
-        if (readFile(input)) {
-            currFile = new File(input);
+        if (args.length == 0) {
+            File defaultFile = new File("layout.csv");
+            if (readFile(defaultFile)) {
+                currFile = new File("layout.csv");
+            }
+        } else {
+            File testFile = new File(args[0]);
+            String path = args[0];
+            if (readFile(testFile)) {
+                currFile = new File(path);
+            }
         }
+
         IGraph graph = new DirectedGraph<>();
         buildGraph(currFile, graph);
+        ((DirectedGraph) graph).printAdjList();
         System.out.println(graph.toString());
-
+        Scanner scan = new Scanner(System.in);
         System.out.println("Select a Start and End Location:\n");
         String start = "";
         String end = "";
-        while (!validateVertices(graph, start, end)) {
+
+        System.out.println("Start: \n");
+        start = scan.nextLine();
+        System.out.println("End: \n");
+        end = scan.nextLine();
+        if(!validateVertices(graph,start,end)){
             System.out.println("Start: \n");
             start = scan.nextLine();
             System.out.println("End: \n");
             end = scan.nextLine();
+        }else if(validateVertices(graph, start, end) && !graph.isConnected
+                (start,end)){
+            System.out.println( start + " and " + end + " are not connected. " +
+                    "\n Try again: ");
+            System.out.println("Start: \n");
+            start = scan.nextLine();
+            System.out.println("End: \n");
+            end = scan.nextLine();
+        }else if(validateVertices(graph, start, end) && graph.isConnected
+                (start,end)){
+            printShortestPath(graph, start, end);
+            scan.close();
         }
 
-        scan.close();
+        System.exit(0);
     }
 
-    private static boolean readFile(String path) {
+    private static boolean readFile(File csv) {
         try {
-            File csv = new File(path);
-            if (!csv.canRead()) {
-                throw new IOException("Unable to read: "
-                        + csv.getName() + "\n" + "Verify the file exists, is" +
-                        " accessible, and meets syntax requirements");
+            if (!csv.canRead() || isCSV(csv)) {
+                throw new IOException();
             }
             if (csv.canRead()) {
                 return true;
             }
         } catch (IOException e) {
+            System.out.println("Unable to read: "
+                    + csv.getName() + "\n" + "Verify the file exists, is" +
+                    " accessible, and meets syntax requirements");
             System.exit(0);
         }
         return false;
     }
 
-    private boolean readFile(File csv) {
-        try {
-            if (!csv.canRead()) {
-                throw new IOException("Unable to read: "
-                        + csv.getName() + "\n" + "Verify the file exists, is" +
-                        " accessible, and meets syntax requirements");
-            }
-            if (csv.canRead()) {
-                return true;
-            }
-        } catch (IOException e) {
-            System.exit(0);
+    private static boolean isCSV(File file) {
+        String name = file.getName();
+        String ext = name.substring(name.lastIndexOf('.') + 1);
+        if (ext != "csv") {
+            return false;
+        } else {
+            return true;
         }
-        return false;
     }
 
-    /**
-     * build graph based on the input line. Read value with delimiter ","
-     * if the value is "value" + ","
-     *
-     * @param graph
-     */
     private static void buildGraph(File file, IGraph graph) {
 
         BufferedReader csvReader = null;
@@ -128,5 +138,21 @@ public class App {
         return false;
     }
 
+    private static void printShortestPath(IGraph graph, String start,
+                                          String end){
+        List shortestPath = graph.shortestPath(start,end);
+        String path = "";
+        int distance = -1;
+        int index = 0;
+        for (Object vertex: shortestPath){
+            if( index != 0 ){
+                path += " -> ";
+            }
+            path += vertex.toString();
+            index ++;
+            distance += 1;
+        }
 
+        System.out.println("The shortest path: " + path + "\nDistance: " + distance);
+    }
 }
